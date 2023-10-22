@@ -1,0 +1,3 @@
+{
+  base_url: "https://www.bmltadmin.anonimowinarkomani.org/main_server/client_interface/{format}/?switcher=GetSearchResults&services={district}&data_field_key={fields}"
+}
