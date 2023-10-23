@@ -49,7 +49,7 @@ class RequestHandle():
 
         field_str = ",".join(fields)
 
-        self.url = "".join([base_url[0], format, base_url[1], district, base_url[2], field_str])
+        self.url = "".join([base_url[0], format, base_url[1], str(district), base_url[2], field_str])
 
 if __name__ == "__main__":
 

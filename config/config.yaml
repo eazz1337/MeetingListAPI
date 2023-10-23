@@ -1,3 +1,21 @@
 {
-  base_url: "https://www.bmltadmin.anonimowinarkomani.org/main_server/client_interface/{format}/?switcher=GetSearchResults&services={district}&data_field_key={fields}"
+  base_url: [
+            "https://www.bmltadmin.anonimowinarkomani.org/main_server/client_interface/",
+            "/?switcher=GetSearchResults&services=",
+            "&data_field_key="
+            ],
+  format: json,
+  district: "Okręg Warszawski",
+  fields: [ 
+            "Dzień powszedni",
+            "Czas rozpoczęcia",
+            "Czas trwania",
+            "Meeting Name",
+            "Location Name",
+            "Additional Location Information",
+            "Street Address",
+            "Borough",
+            "Town"
+          ]
+
 }
