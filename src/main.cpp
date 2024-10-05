@@ -30,14 +30,26 @@
  
 int main(void)
 {
-  CURL *curl;
   CURLcode res;
- 
-  curl = curl_easy_init();
+  FILE *f = fopen("miting_list.csv", "w");
+  CURLU *h = curl_url();
+  CURL *curl = curl_easy_init();
+
   if(curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
-    /* example.com is redirected, so we tell libcurl to follow redirection */
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+  
+    curl_url_set(h, CURLUPART_SCHEME, "https", 0);
+    curl_url_set(h, CURLUPART_HOST, "www.bmltadmin.anonimowinarkomani.org", 0);
+    curl_url_set(h, CURLUPART_PATH, "/main_server/client_interface/csv/", 0);
+    curl_url_set(h, CURLUPART_QUERY, "switcher=GetSearchResults", 0);
+    curl_url_set(h, CURLUPART_QUERY,"services=8", CURLU_APPENDQUERY);
+    curl_url_set(h, CURLUPART_QUERY, "data_field_key=weekday_tinyint,start_time,duration_time,meeting_name,location_text,location_info,location_street,location_city_subsection,location_municipality", CURLU_APPENDQUERY);
+
+    char *url;
+    curl_url_get(h, CURLUPART_URL, &url, 0);
+    printf("URL: %s\n", url);
+
+    curl_easy_setopt(curl, CURLOPT_URL, url);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, f);
  
     /* Perform the request, res gets the return code */
     res = curl_easy_perform(curl);
@@ -48,6 +60,8 @@ int main(void)
  
     /* always cleanup */
     curl_easy_cleanup(curl);
+    curl_url_cleanup(h);
+    fclose(f);
   }
   return 0;
 }
