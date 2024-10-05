@@ -45,9 +45,9 @@ int main(void)
     curl_url_set(h, CURLUPART_QUERY, "switcher=GetSearchResults", 0);
     curl_url_set(h, CURLUPART_QUERY,"services=8", CURLU_APPENDQUERY);
     curl_url_set(h, CURLUPART_QUERY, "data_field_key=weekday_tinyint,start_time,duration_time,meeting_name,location_text,location_info,location_street,location_city_subsection,location_municipality", CURLU_APPENDQUERY);
-
+ 
     parseRes = curl_url_get(h, CURLUPART_URL, &url, 0);
-    
+
     if(parseRes != CURLUE_OK)
     {
       fprintf(stderr, "curl_url_get() failed: %s\n",
