@@ -31,12 +31,14 @@
 int main(void)
 {
   CURLcode res;
+  CURLUcode parseRes;
   FILE *f = fopen("miting_list.csv", "w");
   CURLU *h = curl_url();
   CURL *curl = curl_easy_init();
+  char *url;
 
-  if(curl) {
-  
+  if(curl)
+  {
     curl_url_set(h, CURLUPART_SCHEME, "https", 0);
     curl_url_set(h, CURLUPART_HOST, "www.bmltadmin.anonimowinarkomani.org", 0);
     curl_url_set(h, CURLUPART_PATH, "/main_server/client_interface/csv/", 0);
@@ -44,9 +46,13 @@ int main(void)
     curl_url_set(h, CURLUPART_QUERY,"services=8", CURLU_APPENDQUERY);
     curl_url_set(h, CURLUPART_QUERY, "data_field_key=weekday_tinyint,start_time,duration_time,meeting_name,location_text,location_info,location_street,location_city_subsection,location_municipality", CURLU_APPENDQUERY);
 
-    char *url;
-    curl_url_get(h, CURLUPART_URL, &url, 0);
-    printf("URL: %s\n", url);
+    parseRes = curl_url_get(h, CURLUPART_URL, &url, 0);
+    
+    if(parseRes != CURLUE_OK)
+    {
+      fprintf(stderr, "curl_url_get() failed: %s\n",
+              curl_url_strerror(parseRes));
+    }
 
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, f);
@@ -55,13 +61,16 @@ int main(void)
     res = curl_easy_perform(curl);
     /* Check for errors */
     if(res != CURLE_OK)
+    {
       fprintf(stderr, "curl_easy_perform() failed: %s\n",
               curl_easy_strerror(res));
+    }
  
     /* always cleanup */
     curl_easy_cleanup(curl);
     curl_url_cleanup(h);
     fclose(f);
   }
+
   return 0;
 }
